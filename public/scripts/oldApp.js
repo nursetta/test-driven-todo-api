@@ -1,70 +1,39 @@
 // wait for DOM to load before running JS
 $(document).ready(function() {
 
-var app = new App();  
+  // base API route
+  var baseUrl = '/api/todos';
 
-app.render();
-app.get();
+  // array to hold todo data from API
+  var allTodos = [];
 
-function App(){
-  this.baseUrl = '/api/todos';
-  this.allTodos = [];
-  this.$todosList = $('#todos-list');
-  this.$createTodo = $('#create-todo');
-  this.source = $('#todos-template').html();
-  this.template = Handlebars.compile(this.source);
-  }
+  // element to display list of todos
+  var $todosList = $('#todos-list');
 
-App.prototype.render = function() {
-  this.$todosList.empty();
-  this.todosHtml = this.template({todos: this.allTodos });
-  this.$todosList.append(this.todosHtml);
-  };
-  // // base API route
-  // var baseUrl = '/api/todos';
+  // form to create new todo
+  var $createTodo = $('#create-todo');
 
-  // // array to hold todo data from API
-  // var allTodos = [];
-
-  // // element to display list of todos
-  // var $todosList = $('#todos-list');
-
-  // // form to create new todo
-  // var $createTodo = $('#create-todo');
-
-  // // compile handlebars template
-  // var source = $('#todos-template').html();
-  // var template = Handlebars.compile(source);
+  // compile handlebars template
+  var source = $('#todos-template').html();
+  var template = Handlebars.compile(source);
 
   // helper function to render all todos to view
   // note: we empty and re-render the collection each time our todo data changes
-  // function render() {
-  //   // empty existing todos from view
-  //   $todosList.empty();
+  function render() {
+    // empty existing todos from view
+    $todosList.empty();
 
-  //   // pass `allTodos` into the template function
-  //   var todosHtml = template({ todos: allTodos });
+    // pass `allTodos` into the template function
+    var todosHtml = template({ todos: allTodos });
 
-  //   // append html to the view
-  //   $todosList.append(todosHtml);
-  // };
-
-App.prototype.get = function(req, res) {
-  var app = this;
-  console.log('get');
-
-};
-
-App.prototype.post = function(req, res) {
-  console.log('post');
-
-};
-
+    // append html to the view
+    $todosList.append(todosHtml);
+  };
 
   // GET all todos on page load
   $.ajax({
     method: "GET",
-    url: this.baseUrl,
+    url: baseUrl,
     success: function onIndexSuccess(json) {
       console.log(json);
 
