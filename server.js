@@ -82,6 +82,17 @@ app.put('/api/todos/:id', function update(req, res) {
    * id specified in the route parameter (:id) and respond
    * with the newly updated todo.
    */
+   var oneToUpdate = parseInt(req.params.id);
+   var update = req.body;
+        console.log(req.params);
+     for( var i = 0; i<todos.length; i++){
+       if (oneToUpdate === todos[i]._id){
+       update._id = oneToUpdate;
+       todos[i]= update;       
+          console.log('this works');
+        res.json(todos[i]);
+    }
+  }
 });
 
 app.delete('/api/todos/:id', function destroy(req, res) {
@@ -98,6 +109,8 @@ app.delete('/api/todos/:id', function destroy(req, res) {
      }
 
 });
+
+
 
 /**********
  * SERVER *
